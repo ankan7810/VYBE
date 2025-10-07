@@ -14,6 +14,8 @@ import { setPostData } from '../redux/postSlice';
 import { setUserData } from '../redux/userSlice';
 import FollowButton from './FollowButton';
 import { useNavigate } from 'react-router-dom';
+
+
 function Post({ post }) {
   const { userData } = useSelector(state => state.user)
   const { postData } = useSelector(state => state.post)

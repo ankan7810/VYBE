@@ -44,7 +44,7 @@ function Profile() {
     return (
         <div className='w-full min-h-screen bg-black'>
             <div className='w-full h-[80px] flex justify-between items-center px-[30px] text-white'>
-                <div onClick={() => navigate("/")}><MdOutlineKeyboardBackspace className='text-white cursor-pointer w-[25px]  h-[25px] ' /></div>
+                <div onClick={() => navigate("/")}><MdOutlineKeyboardBackspace className='text-white cursor-pointer w-[25px]  h-[25px] cursor-pointer' /></div>
                 <div className='font-semibold text-[20px]'>{profileData?.userName}</div>
                 <div className='font-semibold cursor-pointer text-[20px] text-blue-500 ' onClick={handleLogOut}>Log Out</div>
             </div>

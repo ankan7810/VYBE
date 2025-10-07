@@ -9,6 +9,7 @@ import axios from 'axios';
 import { serverUrl } from '../App';
 import { setProfileData, setUserData } from '../redux/userSlice';
 import { ClipLoader } from 'react-spinners';
+
 function EditProfile() {
     const { userData } = useSelector(state => state.user)
     const navigate = useNavigate()
@@ -68,7 +69,18 @@ function EditProfile() {
             <input type="text" className='w-[90%] max-w-[600px] h-[60px] bg-[#0a1010] border-2 border-gray-700 rounded-2xl text-white font-semibold px-[20px] outline-none ' placeholder='Enter Your userName' onChange={(e)=>setUserName(e.target.value)} value={userName}/>
             <input type="text" className='w-[90%] max-w-[600px] h-[60px] bg-[#0a1010] border-2 border-gray-700 rounded-2xl text-white font-semibold px-[20px] outline-none ' placeholder='Bio' onChange={(e)=>setBio(e.target.value)} value={bio}/>
             <input type="text" className='w-[90%] max-w-[600px] h-[60px] bg-[#0a1010] border-2 border-gray-700 rounded-2xl text-white font-semibold px-[20px] outline-none ' placeholder='Profession' onChange={(e)=>setProfession(e.target.value)} value={profession}/>
-            <input type="text" className='w-[90%] max-w-[600px] h-[60px] bg-[#0a1010] border-2 border-gray-700 rounded-2xl text-white font-semibold px-[20px] outline-none ' placeholder='Gender' onChange={(e)=>setGender(e.target.value)} value={gender}/>
+            {/* <input type="text" className='w-[90%] max-w-[600px] h-[60px] bg-[#0a1010] border-2 border-gray-700 rounded-2xl text-white font-semibold px-[20px] outline-none ' placeholder='Gender' onChange={(e)=>setGender(e.target.value)} value={gender}/> */}
+
+            <select
+            className="w-[90%] max-w-[600px] h-[60px] bg-[#0a1010] border-2 border-gray-700 rounded-2xl text-white font-semibold px-[20px] outline-none"
+            onChange={(e) => setGender(e.target.value)}
+            value={gender}
+            >
+            <option value="" disabled>Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+            </select>
 
             <button className='px-[10px] w-[60%] max-w-[400px]   py-[5px] h-[50px] bg-[white] cursor-pointer rounded-2xl' onClick={handleEditProfile}>{loading?<ClipLoader size={30} color='black'/>:"Save Profile"}</button>
         </div>

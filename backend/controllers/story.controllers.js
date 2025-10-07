@@ -31,13 +31,14 @@ export const uploadStory = async (req, res) => {
     }
 }
 
+
 export const viewStory = async (req, res) => {
     try {
         const storyId = req.params.storyId
         const story = await Story.findById(storyId)
 
         if (!story) {
-            return res.status(400).json({ message: "story not found" })
+            return res.status(400).json({ message: "story not found"})
         }
 
         const viewersIds = story.viewers.map(id => id.toString())
@@ -53,7 +54,6 @@ export const viewStory = async (req, res) => {
         return res.status(500).json({ message: "story view error" })
     }
 }
-
 
 export const getStoryByUserName=async (req,res)=>{
     try {
@@ -85,8 +85,45 @@ export const getAllStories=async (req,res)=>{
 
            return res.status(200).json(stories)
 
-
     } catch (error) {
            return res.status(500).json({ message: "All story get error" })
     }
 }
+
+
+
+export const deleteStory = async (req, res) => {
+  try {
+    const storyId = req.params.storyId;
+
+    // Find story
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    // Check ownership
+    if (story.author.toString() !== req.userId.toString()) {
+      return res.status(403).json({ message: "You are not authorized to delete this story" });
+    }
+
+    // Delete story from DB
+    await Story.findByIdAndDelete(storyId);
+
+    // Remove story reference from user
+    const user = await User.findById(req.userId);
+    if (user) {
+      if (Array.isArray(user.story)) {
+        user.story = user.story.filter((id) => id.toString() !== storyId.toString());
+      } else if (user.story?.toString() === storyId.toString()) {
+        user.story = null;
+      }
+      await user.save();
+    }
+
+    return res.status(200).json({ message: "Story deleted successfully" });
+  } catch (error) {
+    console.error("Delete story error:", error);
+    return res.status(500).json({ message: "story delete error" });
+  }
+};
